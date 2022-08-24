@@ -234,38 +234,70 @@ public class Practice {
 
     // Display the second maximum salary an employee gets
     public static Long getSecondMaxSalary() throws Exception {
-        //TODO Implement the method
-        return 1L;
+        return employeeService.readAll().stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .map(Employee::getSalary)
+                .distinct()
+                .skip(1)
+                .findFirst().orElseThrow();
     }
 
     // Display the employee(s) who gets the second maximum salary
     public static List<Employee> getSecondMaxSalaryEmployee() {
-        //TODO Implement the method
-        return new ArrayList<>();
+       return employeeService.readAll().stream()
+               .filter(employee -> {
+                   try{
+                       return employee.getSalary().equals(getSecondMaxSalary());
+                   }catch (Exception e){
+                       throw new RuntimeException(e);
+                   }
+               })
+               .collect(Collectors.toList());
     }
 
     // Display the minimum salary an employee gets
     public static Long getMinSalary() throws Exception {
-        //TODO Implement the method
-        return 1L;
+        return employeeService.readAll().stream()
+                .min(Comparator.comparing(Employee::getSalary))
+                .get().getSalary();
+
     }
 
     // Display the employee(s) who gets the minimum salary
     public static List<Employee> getMinSalaryEmployee() {
-        //TODO Implement the method
-        return new ArrayList<>();
+        return employeeService.readAll().stream()
+                .filter(employee -> {
+                    try{
+                        return employee.getSalary().equals(getMinSalary());
+                    }catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     // Display the second minimum salary an employee gets
     public static Long getSecondMinSalary() throws Exception {
-        //TODO Implement the method
-        return 1L;
+        return employeeService.readAll().stream()
+                .map(Employee::getSalary)
+                .sorted()
+                .distinct()
+                .skip(1)
+                .findFirst().get();
     }
 
     // Display the employee(s) who gets the second minimum salary
     public static List<Employee> getSecondMinSalaryEmployee() {
-        //TODO Implement the method
-        return new ArrayList<>();
+        return employeeService.readAll().stream()
+                .filter(employee -> {
+                    try {
+                        return employee.getSalary().equals(getSecondMinSalary());
+
+                    }catch (Exception e){
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     // Display the average salary of the employees
